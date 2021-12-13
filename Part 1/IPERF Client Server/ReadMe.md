@@ -1,4 +1,4 @@
-IPERF echo client and server
+# IPERF echo client and server
 
 If you want to estimate the throughput and delay without the situation of packet loss,
 then comment out lines 75 to 82 in the "IPERF_server.py" file
