@@ -1,4 +1,0 @@
-The data within this file will be transferred to the client.
-My name is Shubham Gupta
-I study in IIT Bhilai
-This is for the CS301 Computer Networks Course
