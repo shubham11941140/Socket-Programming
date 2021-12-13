@@ -1,4 +1,4 @@
-Hard Mode
+# Hard Mode
 
 Run the server using:
 
