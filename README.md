@@ -9,4 +9,6 @@ The respected code files are allocated into directories for easy access and runn
 
 #### Refer to Demo.mp4 file to get a detailed live audio and video demonstration of the running live deployed project with a detailed explanation of the working code.
 
+#### Refer to the ReadMe files present inside the directories to run each particular socket programming application.
+
 #### Refer to requirements.txt to install the necessary Python Library requirements
