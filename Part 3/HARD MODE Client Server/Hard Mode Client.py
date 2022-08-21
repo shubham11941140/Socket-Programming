@@ -92,7 +92,7 @@ def receive_from_server():
         data_str = data.decode("utf-8")
         if data == b"":
             break
-        elif data_str == " ":
+        if data_str == " ":
             try:
                 sock.send(str.encode(" "))
             except Exception as ex:

