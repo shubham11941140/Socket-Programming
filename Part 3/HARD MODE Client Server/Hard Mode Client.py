@@ -72,13 +72,12 @@ def send_to_server():
             continue
         if command_str == "close":
             break
-        else:
-            command = str.encode(command_str)
-            try:
-                sock.send(command)
-            except Exception as e:
-                print(f"Unable to send message to server: {e} ")
-                break
+        command = str.encode(command_str)
+        try:
+            sock.send(command)
+        except Exception as e:
+            print(f"Unable to send message to server: {e} ")
+            break
         sleep(1)
 
 
