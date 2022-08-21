@@ -1,16 +1,10 @@
 # Import the necessary libraries
 
+# Import the necessary functions from the socket library
+from socket import AF_INET, SO_REUSEADDR, SOCK_STREAM, SOL_SOCKET, error, socket
 from sys import exit
-
 from time import sleep
 
-# Import the necessary functions from the socket library
-from socket import AF_INET
-from socket import error
-from socket import socket
-from socket import SOCK_STREAM
-from socket import SOL_SOCKET
-from socket import SO_REUSEADDR
 
 # Recursive function to try to bind to the socket
 def bind_socket():
@@ -44,8 +38,9 @@ def bind_socket():
         # Retry binding by calling the same function recursively
         bind_socket()
 
+
 # Host is initialised
-host = ''
+host = ""
 
 # Standard port is initialised
 port = 8888
@@ -84,18 +79,19 @@ print("Server Listening...")
 conn, address = s.accept()
 
 # Appropriate message is displayed
-print("Connection has been established! |", "IP", address[0], "| Port", address[1])
+print("Connection has been established! |", "IP", address[0], "| Port",
+      address[1])
 
 # Connection has been established which allows to proceed with the file transfer to client
 
 # Open the file which needs to be sent in read mode
-f = open('test_file.txt','rb')
+f = open("test_file.txt", "rb")
 
 # Read the file line by line
 l = f.read(1024)
 
 # Read as long as there is data left in the file
-while (l):
+while l:
 
     # Send the file data line by line to client
     conn.send(l)
@@ -111,10 +107,10 @@ sleep(5)
 
 # As all the file contents are sent, closing message is sent
 # This is important as it will tell the client to close the connection
-conn.send(str.encode('Thank you for connecting'))
+conn.send(str.encode("Thank you for connecting"))
 
 # Appropriate message is displayed
-print('Done sending')
+print("Done sending")
 
 # Close the connection
 conn.close()
