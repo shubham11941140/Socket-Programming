@@ -1,23 +1,11 @@
 from queue import Queue
-
-from socket import AF_INET
-from socket import error
-from socket import SOCK_STREAM
-from socket import socket
-from socket import SOL_SOCKET
-from socket import SO_REUSEADDR
-
-from signal import SIGINT
-from signal import signal
-from signal import SIGTERM
-
+from signal import SIGINT, SIGTERM, signal
+from socket import AF_INET, SO_REUSEADDR, SOCK_STREAM, SOL_SOCKET, error, socket
 from sys import exit
-
 from threading import Thread
-
 from time import sleep
 
-host = ''
+host = ""
 port = 8888
 sock = None
 
@@ -28,6 +16,7 @@ client_connections = []
 client_addresses = []
 client_threads = []
 
+
 def create_socket():
     global sock
     try:
@@ -35,6 +24,7 @@ def create_socket():
     except error as msg:
         print("Socket creation error: " + str(msg))
     sock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+
 
 def bind_socket():
     try:
@@ -46,15 +36,17 @@ def bind_socket():
         sleep(5)
         bind_socket()
 
-def quit_gracefully(signal = None, frame = None):
+
+def quit_gracefully(signal=None, frame=None):
     for conn in client_connections:
         try:
             conn.shutdown(2)
             conn.close()
             sock.close()
         except Exception as msg:
-            print('Could not close connection:' + str(msg))
+            print("Could not close connection:" + str(msg))
     exit()
+
 
 def accept_conn():
     global client_connections
@@ -66,18 +58,21 @@ def accept_conn():
             client_connections.append(conn)
             client_addresses.append(addr)
             conn.setblocking(1)
-            t = Thread(target = send_client, args = (client_connections[-1], client_addresses[-1]))
+            t = Thread(target=send_client,
+                       args=(client_connections[-1], client_addresses[-1]))
             t.daemon = True
             client_threads.append(t)
             t.start()
         except Exception as msg:
-            print('Cannot accept connections: ' + str(msg))
-        print('Connection has been established with client: ' + str(addr))
+            print("Cannot accept connections: " + str(msg))
+        print("Connection has been established with client: " + str(addr))
     return
+
 
 def work():
     accept_conn()
     queue.task_done()
+
 
 def create_jobs():
     for x in temp:
@@ -85,11 +80,12 @@ def create_jobs():
     queue.join()
     return
 
+
 def send_client(conn, addr):
     while True:
         command = conn.recv(2048)
-        command_str = (command.decode('utf-8')).strip()
-        if command == b'':
+        command_str = (command.decode("utf-8")).strip()
+        if command == b"":
             break
         if command_str == "connections":
             output_str = clients()
@@ -102,7 +98,8 @@ def send_client(conn, addr):
             try:
                 to_conn.send(str.encode(msg))
             except Exception as ex:
-                print("Cannot send message to {} from {}: {}".format(to_addr, addr, ex))
+                print("Cannot send message to {} from {}: {}".format(
+                    to_addr, addr, ex))
                 continue
             output_str = "MESSAGE sent successfully to {}\n".format(to_addr)
         else:
@@ -110,8 +107,10 @@ def send_client(conn, addr):
         try:
             conn.send(str.encode(output_str))
         except Exception as ex:
-            print("Cannot send status message to client: {} from server:= {}".format(addr, ex))
+            print("Cannot send status message to client: {} from server:= {}".
+                  format(addr, ex))
     return
+
 
 def clients():
     clients = "CLIENTS\nCLIENT ID \tIP ADDRESS\t PORT\n"
@@ -119,7 +118,7 @@ def clients():
         try:
             conn.send(str.encode(" "))
             data = conn.recv(2048)
-            if data == b'':
+            if data == b"":
                 raise Exception("connection broken")
         except Exception as e:
             if i < len(client_connections):
@@ -130,14 +129,16 @@ def clients():
         clients += f"{i}: \t{client_addresses[i][0]}\t{client_addresses[i][1]}\n"
     return clients
 
+
 def main():
     create_socket()
     bind_socket()
     signal(SIGINT, quit_gracefully)
     signal(SIGTERM, quit_gracefully)
-    t = Thread(target = work, args = ())
+    t = Thread(target=work, args=())
     t.daemon = True
     t.start()
     create_jobs()
+
 
 main()

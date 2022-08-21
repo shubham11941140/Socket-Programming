@@ -3,21 +3,20 @@
 from os import _exit
 
 # Import the necessary functions from the socket library
-from socket import AF_UNSPEC
-from socket import getaddrinfo
-from socket import SOCK_STREAM
-from socket import socket
+from socket import AF_UNSPEC, SOCK_STREAM, getaddrinfo, socket
 
 # Collect the user input and inform the default inputs
-host = input('Enter host (Default host = ip6-localhost) (Enter localhost for IPv4 hostname): ') # localhost or ip6-localhost
-port = input('Enter port (Default port = 8000): ') # 8000
+host = input(
+    "Enter host (Default host = ip6-localhost) (Enter localhost for IPv4 hostname): "
+)  # localhost or ip6-localhost
+port = input("Enter port (Default port = 8000): ")  # 8000
 
 # If host input is not entered, set to default value
-if host == '':
-    host = 'ip6-localhost'
+if host == "":
+    host = "ip6-localhost"
 
 # If port input is not entered, set to default value
-if port == '':
+if port == "":
     port = 8000
 
 # Uninitialised socket at server
@@ -29,7 +28,8 @@ ServerSocket = None
 
 # AF_UNSPEC indicates that the caller will accept any protocol family and will not distinguish between IPv4 and IPv6
 # SOCK_STREAM means that it is a TCP socket
-for addrFamily, socketKind, protocol, cn, socketAddress in getaddrinfo(host, port, AF_UNSPEC, SOCK_STREAM):
+for addrFamily, socketKind, protocol, cn, socketAddress in getaddrinfo(
+        host, port, AF_UNSPEC, SOCK_STREAM):
 
     # We will try to establish a socket at the server
     try:
@@ -46,7 +46,9 @@ for addrFamily, socketKind, protocol, cn, socketAddress in getaddrinfo(host, por
             ServerSocket.listen(1)
 
             # As socket is created and listening, it is in use
-            print(f'Current socket in use: {addrFamily, socketKind, protocol, cn, socketAddress}')
+            print(
+                f"Current socket in use: {addrFamily, socketKind, protocol, cn, socketAddress}"
+            )
 
             # The socket has been established and is in use
             break
@@ -67,15 +69,15 @@ for addrFamily, socketKind, protocol, cn, socketAddress in getaddrinfo(host, por
 
 # The case where we are unable to create a socket at the server, we need to exit
 if ServerSocket == None:
-    print('Cannot create connection with provided socket.')
-    print('Exiting...')
+    print("Cannot create connection with provided socket.")
+    print("Exiting...")
     _exit(1)
 
 # As socket is created at the server, accept the connection with the client
 Client, address = ServerSocket.accept()
 
 # Client connection is accepted and connection is established
-print(f'\n[*] Connected to: {address[0]}:{address[1]}')
+print(f"\n[*] Connected to: {address[0]}:{address[1]}")
 
 # Keep connection open till data is being received
 while True:
@@ -87,7 +89,7 @@ while True:
     if not data:
 
         # Connection is terminated at server end
-        print(f'\n[*] Disconnected from: {address[0]}:{address[1]}')
+        print(f"\n[*] Disconnected from: {address[0]}:{address[1]}")
 
         # Close the server socket
         Client.close()

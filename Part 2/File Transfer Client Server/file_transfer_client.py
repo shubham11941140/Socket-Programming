@@ -1,16 +1,13 @@
 # Import the necessary libraries
 
 # Import the necessary functions from the socket library
-from socket import AF_INET
-from socket import error
-from socket import socket
-from socket import SOCK_STREAM
+from socket import AF_INET, SOCK_STREAM, error, socket
 
 # Uninitialised socket at client
 s = None
 
 # Standard host is initialised
-host = 'localhost'
+host = "localhost"
 
 # Standard port is initialised
 port = 8888
@@ -40,14 +37,14 @@ except error as msg:
     print("Socket connection error:", msg)
 
 # Client socket has been created and established, so the transferred file is written
-with open('received_file.txt', 'w') as f:
+with open("received_file.txt", "w") as f:
 
     # Open a new file
-    print('file opened')
+    print("file opened")
     while True:
 
         # Collecting data from the server
-        print('receiving data...')
+        print("receiving data...")
 
         # Receiving server data
         # Decoding the data sent as bytes as character strings
@@ -55,11 +52,11 @@ with open('received_file.txt', 'w') as f:
         data = s.recv(1024).decode("utf-8")
 
         # If there is a message to complete the connection i.e. data receival is complete
-        if data == 'Thank you for connecting':
+        if data == "Thank you for connecting":
 
             # Print appropriate message to the user
-            print('Successfully get the file')
-            print('Thank you for connecting')
+            print("Successfully get the file")
+            print("Thank you for connecting")
 
             # As no more data will come, exit the loops
             break
