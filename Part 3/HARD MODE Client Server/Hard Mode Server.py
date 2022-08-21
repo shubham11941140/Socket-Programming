@@ -49,9 +49,6 @@ def quit_gracefully(signal=None, frame=None):
 
 
 def accept_conn():
-    global client_connections
-    global client_addresses
-    global client_threads
     while True:
         try:
             conn, addr = sock.accept()
