@@ -66,7 +66,7 @@ for addrFamily, socketKind, protocol, cn, socketAddress in getaddrinfo(host, por
         ServerSocket = None
 
 # The case where we are unable to create a socket at the server, we need to exit
-if ServerSocket == None:
+if ServerSocket is None:
     print('Cannot create connection with provided socket.')
     print('Exiting...')
     _exit(1)
