@@ -70,7 +70,7 @@ def send_to_server():
         command_str = input()
         if len(command_str) == 0:
             continue
-        elif command_str == "close":
+        if command_str == "close":
             break
         else:
             command = str.encode(command_str)
