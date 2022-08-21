@@ -15,9 +15,6 @@ from socket import SO_REUSEADDR
 # Recursive function to try to bind to the socket
 def bind_socket():
 
-    # As we need to bind the uninitialised socket, calling it
-    global s
-
     # Try to complete the binding of the socket
     try:
 
