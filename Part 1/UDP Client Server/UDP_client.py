@@ -1,22 +1,13 @@
 # Import the necessary libraries
 
 from datetime import datetime as dt
-
 from decimal import Decimal
-
-from random import choice
-from random import randint
-
-from string import ascii_lowercase
-from string import digits
-
-from time import sleep
+from random import choice, randint
 
 # Import the necessary functions from the socket library
-from socket import AF_INET
-from socket import socket
-from socket import SOCK_DGRAM
-from socket import timeout
+from socket import AF_INET, SOCK_DGRAM, socket, timeout
+from string import ascii_lowercase, digits
+from time import sleep
 
 # Set the server IP address and port tuple to a localhost and arbitrary value respectively
 # Readjust this value if you want to communicate with another client on the same network
@@ -35,7 +26,7 @@ interval = Decimal(input("Enter the interval: "))
 buffer_size = int(input("Enter the packet size in bytes: "))
 
 # Create a UDP socket at client side
-UDP_client_socket = socket(family = AF_INET, type = SOCK_DGRAM)
+UDP_client_socket = socket(family=AF_INET, type=SOCK_DGRAM)
 
 # Set a standard timeout after which we move to the next packet in the case of a packet drop
 UDP_client_socket.settimeout(1)
@@ -64,7 +55,8 @@ ack_msg = UDP_client_socket.recvfrom(buffer_size)
 for msg_count in range(1, msg_total + 1):
 
     # Print appropriate message to the user
-    print("Sending message for packet number", msg_count, "of size", buffer_size, "bytes")
+    print("Sending message for packet number", msg_count, "of size",
+          buffer_size, "bytes")
 
     # Estimate the current timestamp to put a timestamp of sending on the packet
     # It marks the sending time of the echo message
@@ -72,7 +64,9 @@ for msg_count in range(1, msg_total + 1):
 
     # Send a random message of a random fixed length
     # It is useful as each message to the server is a distinct string
-    client_msg = ''.join([choice(ascii_lowercase + digits) for _ in range(randint(10, 20))]).encode()
+    client_msg = "".join([
+        choice(ascii_lowercase + digits) for _ in range(randint(10, 20))
+    ]).encode()
 
     # Send the message as an appropriate byte stream to the server
     UDP_client_socket.sendto(client_msg, server_IP_address_port)
@@ -104,7 +98,8 @@ for msg_count in range(1, msg_total + 1):
     print("Message from Server is", server_msg[0].decode("utf-8"))
 
     # Print appropriate message to the user
-    print("Round Trip Time for packet", msg_count, "is", round_trip_time, "seconds")
+    print("Round Trip Time for packet", msg_count, "is", round_trip_time,
+          "seconds")
 
     # Every packets Round Trip Time contributes to the Average Round Trip Time
     avg_round_trip_time += round_trip_time
@@ -120,7 +115,7 @@ for msg_count in range(1, msg_total + 1):
 
 # Count the number of packets lost/dropped
 # The difference of the total packets and successfully transferred packets
-packets_lost = (msg_total - packets_success)
+packets_lost = msg_total - packets_success
 
 # Calculate the loss percentage for the dropped packets (in percentage)
 packet_loss_percentage = Decimal(packets_lost / msg_total) * 100
@@ -142,7 +137,7 @@ print("The packet loss percentage is", packet_loss_percentage, "%")
 print("Finished sending, Terminating the connection...")
 
 # Send the message to exit to the server, to terminate the process
-UDP_client_socket.sendto('exit'.encode(), server_IP_address_port)
+UDP_client_socket.sendto("exit".encode(), server_IP_address_port)
 
 # Receive the termination message from the server
 # Indicates that the server has closed the connection
