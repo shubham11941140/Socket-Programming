@@ -97,7 +97,7 @@ def threaded_client(connection):
 
             port = int(port)
             target = (ip, port)
-            if target not in mapping.keys():
+            if target not in mapping:
                 reply = "[*] Server Error: Cannot find specified target client"
             else:
                 source = connection.getpeername()
