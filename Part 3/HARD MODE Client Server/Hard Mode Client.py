@@ -65,7 +65,6 @@ def create_jobs():
     for x in temp:
         queue.put(x)
     queue.join()
-    return
 
 def send_to_server():
     print("Enter any of the commands given below")
@@ -86,7 +85,6 @@ def send_to_server():
                 print(f"Unable to send message to server: {e} ")
                 break
         sleep(1)
-    return
 
 def receive_from_server():
     while True:
@@ -106,7 +104,6 @@ def receive_from_server():
                 break
         elif data_str:
             print(data_str + "\n>>>>>", end = "")
-    return
 
 def main():
     create_socket()

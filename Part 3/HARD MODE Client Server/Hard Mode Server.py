@@ -73,7 +73,6 @@ def accept_conn():
         except Exception as msg:
             print('Cannot accept connections: ' + str(msg))
         print('Connection has been established with client: ' + str(addr))
-    return
 
 def work():
     accept_conn()
@@ -83,7 +82,6 @@ def create_jobs():
     for x in temp:
         queue.put(x)
     queue.join()
-    return
 
 def send_client(conn, addr):
     while True:
@@ -111,7 +109,6 @@ def send_client(conn, addr):
             conn.send(str.encode(output_str))
         except Exception as ex:
             print("Cannot send status message to client: {} from server:= {}".format(addr, ex))
-    return
 
 def clients():
     clients = "CLIENTS\nCLIENT ID \tIP ADDRESS\t PORT\n"
