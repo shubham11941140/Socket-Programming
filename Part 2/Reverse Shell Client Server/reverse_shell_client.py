@@ -67,7 +67,7 @@ while True:
 
     # Since this is a command to change the directory to a new directory
     # The path of the shell needs to be changed, it is handled seperately
-    elif data[:2] == 'cd':
+    if data[:2] == 'cd':
 
         # To store the necessary message for the user
         output_str = ""

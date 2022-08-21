@@ -232,7 +232,7 @@ while msg_total > 0:
             break
 
         # The case if the delay is so high that it is moving over to the next second and we have time leftover in this second
-        elif passtime + sleeptime > 1 and passtime <= 1:
+        if passtime + sleeptime > 1 and passtime <= 1:
 
             # Set the sleep value to the rest of the second
             tosleep = Decimal(1 - passtime)
