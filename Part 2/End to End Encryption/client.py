@@ -13,6 +13,7 @@ from os.path import realpath
 
 from socket import error
 from socket import socket
+import sys
 
 from threading import Thread
 
@@ -86,4 +87,4 @@ while True:
     if Input == 'quit':
         print('Quitting...')
         ClientSocket.close()
-        quit()
+        sys.exit()

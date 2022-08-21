@@ -1,3 +1,4 @@
+import sys
 import threading
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -86,4 +87,4 @@ while True:
     if Input == 'quit':
         print('Quitting...')
         ClientSocket.close()
-        quit()
+        sys.exit()
