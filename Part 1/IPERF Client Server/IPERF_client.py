@@ -1,30 +1,15 @@
 # Import the necessary libraries
 
 from datetime import datetime as dt
-
 from decimal import Decimal
-
-from matplotlib.pyplot import grid
-from matplotlib.pyplot import plot
-from matplotlib.pyplot import show
-from matplotlib.pyplot import subplot
-from matplotlib.pyplot import title
-from matplotlib.pyplot import xlabel
-from matplotlib.pyplot import ylabel
-
-from random import choice
-from random import randint
-
-from string import ascii_lowercase
-from string import digits
-
-from time import sleep
+from random import choice, randint
 
 # Import the necessary functions from the socket library
-from socket import AF_INET
-from socket import socket
-from socket import SOCK_DGRAM
-from socket import timeout
+from socket import AF_INET, SOCK_DGRAM, socket, timeout
+from string import ascii_lowercase, digits
+from time import sleep
+
+from matplotlib.pyplot import grid, plot, show, subplot, title, xlabel, ylabel
 
 # Set the server IP address and port tuple to a localhost and arbitrary value respectively
 # Readjust this value if you want to communicate with another client on the same network
@@ -43,7 +28,7 @@ interval = Decimal(input("Enter the interval: "))
 buffer_size = int(input("Enter the packet size in bytes: "))
 
 # Create a UDP socket at client side
-UDP_client_socket = socket(family = AF_INET, type = SOCK_DGRAM)
+UDP_client_socket = socket(family=AF_INET, type=SOCK_DGRAM)
 
 # Set a standard timeout after which we move to the next packet in the case of a packet drop
 UDP_client_socket.settimeout(1)
@@ -66,6 +51,7 @@ UDP_client_socket.sendto(calibration_msg, server_IP_address_port)
 # Receive acknowledgement message from the server to verify that the calibration is complete
 ack_msg = UDP_client_socket.recvfrom(buffer_size)
 
+
 # A function that reduces the interval to 90 % of it's initial value
 def new_interval(interval_value):
 
@@ -77,6 +63,7 @@ def new_interval(interval_value):
 
     # As 10 % is removed from the initial interval, 90 % is left
     return new_interval_value
+
 
 # To store the Average Throughput values after each second
 AVG_THROUGHPUT = []
@@ -160,7 +147,9 @@ while msg_total > 0:
         # Send message to server
         # Send a random message of a random fixed length
         # It is useful as each message to the server is a distinct string
-        client_msg = ''.join([choice(ascii_lowercase + digits) for _ in range(randint(10, 20))]).encode()
+        client_msg = "".join([
+            choice(ascii_lowercase + digits) for _ in range(randint(10, 20))
+        ]).encode()
 
         # Send the message as an appropriate byte stream to the server
         UDP_client_socket.sendto(client_msg, server_IP_address_port)
@@ -238,7 +227,7 @@ while msg_total > 0:
             tosleep = Decimal(1 - passtime)
 
             # Store the remaining delay to be carried over to the next second
-            delta = Decimal(sleeptime - (1 -  passtime))
+            delta = Decimal(sleeptime - (1 - passtime))
 
         # We have time in the current second to complete the delay
         else:
@@ -293,16 +282,16 @@ subplot(1, 2, 1)
 
 # Plot the Average Throughput in bytes per second on the Y-axis, Time scale in seconds on the X-axis
 # Color of the plot is Red
-plot(TIME, AVG_THROUGHPUT, 'red')
+plot(TIME, AVG_THROUGHPUT, "red")
 
 # Label the X-axis in the subplot with the Time scale in seconds
-xlabel('Time (in seconds)')
+xlabel("Time (in seconds)")
 
 # Label the Y-axis in the subplot with the Average Throughput in bytes per second
-ylabel('Average Throughput (bytes/seconds)')
+ylabel("Average Throughput (bytes/seconds)")
 
 # Label the graph as Y-axis vs X-axis
-title('Average Throughput (bytes/seconds) vs Time (in seconds)')
+title("Average Throughput (bytes/seconds) vs Time (in seconds)")
 
 # Make a grid out of the graph to give better approximation
 grid(True)
@@ -312,16 +301,16 @@ subplot(1, 2, 2)
 
 # Plot the Average Delay values in seconds on the Y-axis, Time scale in seconds on the X-axis
 # Color of the plot is Blue
-plot(TIME, AVG_DELAY, 'blue')
+plot(TIME, AVG_DELAY, "blue")
 
 # Label the X-axis in the subplot with the Time scale in seconds
-xlabel('Time (in seconds)')
+xlabel("Time (in seconds)")
 
 # Label the Y-axis in the subplot with the Average Delay in seconds
-ylabel('Average Delay (in seconds)')
+ylabel("Average Delay (in seconds)")
 
 # Label the graph as Y-axis vs X-axis
-title('Average Delay (in seconds) vs Time (in seconds)')
+title("Average Delay (in seconds) vs Time (in seconds)")
 
 # Make a grid out of the graph to give better approximation
 grid(True)
@@ -336,7 +325,7 @@ print("Graph Plotting is Complete")
 print("Finished sending, Terminating the connection...")
 
 # Send the message to exit to the server, to terminate the process
-UDP_client_socket.sendto('exit'.encode(), server_IP_address_port)
+UDP_client_socket.sendto("exit".encode(), server_IP_address_port)
 
 # Receive the termination message from the server
 # Indicates that the server has closed the connection
